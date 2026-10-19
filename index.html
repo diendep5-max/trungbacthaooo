@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thế Giới Trứng Bắc Thảo</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f4fce8;
+            color: #3b4d2e;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #4a633a;
+            text-shadow: 1px 1px 2px #d3e8c1;
+        }
+
+        .gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .gallery img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #c2dbab;
+            transition: transform 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background-color: #8db56b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-family: inherit;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background-color: #79a159;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #result-area {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in-out;
+            z-index: 10;
+            position: relative;
+        }
+
+        #result-text {
+            font-size: 2rem;
+            color: #d1567d;
+            margin-bottom: 20px;
+        }
+
+        #result-img {
+            width: 300px;
+            max-width: 90%;
+            border-radius: 20px;
+            border: 5px solid #ffb3c6;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            animation: bounceIn 0.8s;
+        }
+
+        /* Heart Animation */
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            color: #ff4d6d;
+            animation: flyUp 3s ease-in forwards;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes flyUp {
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.1); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Xin chào, chào mừng tới với thế giới trứng bắc thảo!</h1>
+
+    <!-- Hiển thị các sticker đáng yêu cùng tone -->
+    <div class="gallery">
+        <img src="581245895704195642.jpg" alt="Trứng bắc thảo cười">
+        <img src="891290582524068607.jpg" alt="Trứng bắc thảo chu mỏ">
+        <img src="591871576072367109.jpg" alt="Trứng bắc thảo ngại ngùng">
+        <img src="download (1).jpg" alt="Trứng bắc thảo suỵt">
+    </div>
+
+    <div class="button-container">
+        <button onclick="showResult('ban')">bạn là?</button>
+        <button onclick="showResult('tui')">tui là?</button>
+    </div>
+
+    <div id="result-area">
+        <h2 id="result-text"></h2>
+        <img id="result-img" src="" alt="Kết quả">
+    </div>
+
+    <script>
+        function createHearts() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '💖';
+                    heart.classList.add('heart');
+                    
+                    // Vị trí ngẫu nhiên
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = (window.innerHeight - 50) + 'px';
+                    
+                    // Kích thước ngẫu nhiên
+                    const size = Math.random() * 2 + 1;
+                    heart.style.fontSize = size + 'rem';
+                    
+                    document.body.appendChild(heart);
+
+                    // Xóa tim sau khi bay xong
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 3000);
+                }, i * 100); // Tạo độ trễ để tim bay liên tục
+            }
+        }
+
+        function showResult(type) {
+            const resultArea = document.getElementById('result-area');
+            const resultText = document.getElementById('result-text');
+            const resultImg = document.getElementById('result-img');
+
+            resultArea.style.display = 'flex';
+            
+            // Xóa animation cũ để chạy lại khi bấm nhiều lần
+            resultImg.style.animation = 'none';
+            resultImg.offsetHeight; /* trigger reflow */
+            resultImg.style.animation = null;
+
+            if (type === 'ban') {
+                resultText.innerText = 'Bạn tui hihi';
+                resultImg.src = '891290582524068607.jpg';
+            } else if (type === 'tui') {
+                resultText.innerText = 'Người bạn đáng yêu nhất thế giới';
+                resultImg.src = '591871576072367109.jpg';
+            }
+
+            createHearts();
+        }
+    </script>
+
+</body>
+</html>
